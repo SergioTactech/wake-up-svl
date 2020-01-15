@@ -1,0 +1,77 @@
+#!/bin/bash
+COUNTRY='chile'
+PURCHASEORDER=1
+BFF=1
+PRODUCTS=1
+USERS=1
+FRONTEND=1
+
+while getopts "c:f:b:u:p:o" OPTION
+do
+  case $OPTION in
+    c)
+      COUNTRY=$OPTARG
+			;;
+    f)
+      FRONTEND=0
+			;;
+    b)
+      BFF=0
+			;;
+    u)
+      USERS=0
+			;;
+    p)
+      PRODUCTS=0
+			;;
+    o)
+      PURCHASEORDER=0
+			;;
+  esac
+done
+
+echo $COUNTRY
+
+openXTERMWithCommand() {
+  command="cd ${1} && ${2}"
+  echo $command
+  exec xterm -e "${command}"
+}
+
+#### Paths ####
+BASEPATH=~/tactech/fala/
+BFFPATH=${BASEPATH}bff-sodimac/
+PURCHASEORDERSPATH=${BASEPATH}api-logistics/
+USERSPATH=${BASEPATH}svl-users-rails/
+PRODUCTSPATH=${BASEPATH}svl-products-rails/
+FRONTENDPATH=${BASEPATH}/frontend-react/
+
+#### Commands ####
+OPENXTERM='xterm -e'
+BFFCOMMAND='npm run start-dev'
+PURCHASEORDERSCOMMAND='npm run start-dev' 
+USERSCOMMAND='rails s -p 3010'
+PRODUCTSCOMMAND='rails s -p 3001'
+FRONTENDCOMMAND="npm start ${COUNTRY}"
+
+if [ $BFF -eq 1 ]
+then
+  openXTERMWithCommand "$BFFPATH" "$BFFCOMMAND"
+fi &
+if [ $PURCHASEORDER -eq 1 ]
+then
+  openXTERMWithCommand "$PURCHASEORDERSPATH" "$PURCHASEORDERSCOMMAND"
+fi &
+if [ $USERS -eq 1 ]
+then
+  openXTERMWithCommand "$USERSPATH" "$USERSCOMMAND"
+fi &
+if [ $PRODUCTS -eq 1 ]
+then
+  openXTERMWithCommand "$PRODUCTSPATH" "$PRODUCTSCOMMAND"
+fi &
+if [ $FRONTEND -eq 1 ]
+then
+  openXTERMWithCommand "$FRONTENDPATH" "$FRONTENDCOMMAND"
+fi &
+
