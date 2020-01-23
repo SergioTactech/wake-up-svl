@@ -6,7 +6,7 @@ PRODUCTS=1
 USERS=1
 FRONTEND=1
 
-while getopts "c:f:b:u:p:o" OPTION
+while getopts "c:f:b:u:p:l" OPTION
 do
   case $OPTION in
     c)
@@ -24,13 +24,14 @@ do
     p)
       PRODUCTS=0
 			;;
-    o)
+    l)
       PURCHASEORDER=0
 			;;
   esac
 done
 
 echo $COUNTRY
+echo $bff
 
 openXTERMWithCommand() {
   command="cd ${1} && ${2}"
@@ -39,11 +40,11 @@ openXTERMWithCommand() {
 }
 
 #### Paths ####
-BASEPATH=~/tactech/fala/
+BASEPATH=~/tactech/
 BFFPATH=${BASEPATH}bff-sodimac/
 PURCHASEORDERSPATH=${BASEPATH}api-logistics/
-USERSPATH=${BASEPATH}svl-users-rails/
-PRODUCTSPATH=${BASEPATH}svl-products-rails/
+USERSPATH=${BASEPATH}api-users/
+PRODUCTSPATH=${BASEPATH}api-products/
 FRONTENDPATH=${BASEPATH}/frontend-react/
 
 #### Commands ####
